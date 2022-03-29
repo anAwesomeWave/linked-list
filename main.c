@@ -22,6 +22,14 @@ void push_front(struct Node** head, int data) {
     }
 };
 
+void pop_front(struct Node** head) {
+    if(*head != NULL) {
+        struct Node* new_head = (*head)->next;
+        free(*head);
+        (*head) = new_head;
+    }
+}
+
 void printList(struct Node* h) {
     /*while(h != NULL) {
         printf("%d ", h->data);
@@ -34,6 +42,8 @@ void printList(struct Node* h) {
 }
 
 struct Node* get_last_el(struct Node* ptr) {
+    if(ptr == NULL)
+        return NULL;
     if(ptr->next == NULL)
         return ptr;
     return get_last_el(ptr->next);
@@ -42,7 +52,7 @@ struct Node* get_last_el(struct Node* ptr) {
 void push_back(struct Node** ptr, int data) {
     struct Node* new_el = (struct Node *)malloc(sizeof(struct Node));
     new_el -> data = data;
-    new_el->next = NULL;
+    new_el -> next = NULL;
     if(*ptr == NULL) {
         (*ptr) = new_el;
     } else {
@@ -53,11 +63,14 @@ void push_back(struct Node** ptr, int data) {
 
 int main() {
     struct Node* head = NULL;
-    struct Node* tail = NULL;
     for(int i = 0; i < 5; i ++) {
         push_back(&head, i);
         printList(head);
         printf("\n");
     }
-    //printf("%d", get_last_el(head)->data);
+    while(head != NULL) {
+        pop_front(&head);
+        printList(head);
+        printf("\n");
+    }
 }
