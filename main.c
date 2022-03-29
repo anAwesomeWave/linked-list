@@ -33,12 +33,31 @@ void printList(struct Node* h) {
     printList(h->next);
 }
 
+struct Node* get_last_el(struct Node* ptr) {
+    if(ptr->next == NULL)
+        return ptr;
+    return get_last_el(ptr->next);
+}
+
+void push_back(struct Node** ptr, int data) {
+    struct Node* new_el = (struct Node *)malloc(sizeof(struct Node));
+    new_el -> data = data;
+    new_el->next = NULL;
+    if(*ptr == NULL) {
+        (*ptr) = new_el;
+    } else {
+        struct Node* last = get_last_el(*ptr);
+        (*last).next = new_el;
+    }
+}
 
 int main() {
     struct Node* head = NULL;
+    struct Node* tail = NULL;
     for(int i = 0; i < 5; i ++) {
-        push_front(&head, i);
+        push_back(&head, i);
         printList(head);
         printf("\n");
     }
+    //printf("%d", get_last_el(head)->data);
 }
