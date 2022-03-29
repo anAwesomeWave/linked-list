@@ -83,13 +83,14 @@ void pop_back(struct Node** head) {
     }
 }
 
+// starting from 0
 void insert(struct Node** head, int n, int data) { // 'n' and 'i' are signed because of 'n-1'
-    struct Node* new = (struct Node*) malloc(sizeof(struct Node));
+    struct Node *new = (struct Node *) malloc(sizeof(struct Node));
     new->data = data;
-    if(n == 0) {
+    if (n == 0) {
         new->next = (*head);
         *head = new;
-    }else {
+    } else {
         int i = 0;
         struct Node *tmp = (*head);
         while (i < n - 1 && tmp->next) { // search for previous element
@@ -98,6 +99,27 @@ void insert(struct Node** head, int n, int data) { // 'n' and 'i' are signed bec
         }
         new->next = tmp->next;
         tmp->next = new;
+    }
+}
+
+//starting from 0
+void delete_ind(struct Node** head, int n) {
+    if(*head) {
+        if(n == 0){
+            struct Node* node = *head;
+            *head = (*head)->next;
+            free(node);
+        }else {
+            int i = 0;
+            struct Node *tmp = *head;
+            while (i < n - 1 && tmp->next) {
+                tmp = tmp->next;
+                i++;
+            }
+            struct Node *t = tmp->next;
+            tmp->next = tmp->next->next;
+            free(t);
+        }
     }
 }
 
@@ -116,13 +138,11 @@ int main() {
         printList(head);
     }
     printf("\n");
-    insert(&head, 1, 0);
+    delete_ind(&head, 0);
     printList(head);
-    insert(&head, 2, 0);
+    delete_ind(&head, 1);
     printList(head);
-    insert(&head, 0, 0);
-    printList(head);
-    insert(&head, 8, 0);
+    delete_ind(&head, 2);
     printList(head);
     free_memory(head);
 }
